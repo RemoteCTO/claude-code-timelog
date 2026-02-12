@@ -77,9 +77,12 @@ directory. Pick one of:
 
 ```bash
 CACHE=~/.claude/plugins/cache
-ln -sf "$CACHE"/remotecto-plugins/timelog/*/bin/claudelog \
-  ~/.local/bin/claudelog
+LATEST=$(ls -d "$CACHE"/remotecto-plugins/timelog/*/bin/claudelog | tail -1)
+ln -sf "$LATEST" ~/.claude/bin/claudelog
 ```
+
+`~/.claude/bin` is on PATH if you use Claude
+Code (added by the installer).
 
 **Option B: PATH in shell profile**
 
