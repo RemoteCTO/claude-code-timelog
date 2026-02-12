@@ -76,18 +76,18 @@ directory. Pick one of:
 **Option A: Symlink (recommended)**
 
 ```bash
-ln -sf ~/.claude/plugins/cache/\
-remotecto-plugins/timelog/*/bin/claudelog \
-~/.local/bin/claudelog
+CACHE=~/.claude/plugins/cache
+ln -sf "$CACHE"/remotecto-plugins/timelog/*/bin/claudelog \
+  ~/.local/bin/claudelog
 ```
 
 **Option B: PATH in shell profile**
 
 ```bash
 # Add to .zshrc or .bashrc
+CACHE=~/.claude/plugins/cache
 TIMELOG_BIN="$(ls -d \
-  ~/.claude/plugins/cache/\
-remotecto-plugins/timelog/*/bin \
+  "$CACHE"/remotecto-plugins/timelog/*/bin \
   2>/dev/null | tail -1)"
 [ -n "$TIMELOG_BIN" ] && \
   export PATH="$TIMELOG_BIN:$PATH"
