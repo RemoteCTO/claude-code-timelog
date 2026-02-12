@@ -55,6 +55,47 @@ immediately with sensible defaults:
 
 No configuration needed for basic use.
 
+## CLI usage
+
+The `claudelog` command lets you run reports
+and backfills from any terminal — no active
+Claude Code session needed.
+
+```bash
+claudelog report --week --by-project
+claudelog report --month --timesheet --json
+claudelog backfill
+claudelog --help
+```
+
+### Adding to PATH
+
+The plugin installs to a versioned cache
+directory. Pick one of:
+
+**Option A: Symlink (recommended)**
+
+```bash
+ln -sf ~/.claude/plugins/cache/\
+remotecto-plugins/timelog/*/bin/claudelog \
+~/.local/bin/claudelog
+```
+
+**Option B: PATH in shell profile**
+
+```bash
+# Add to .zshrc or .bashrc
+TIMELOG_BIN="$(ls -d \
+  ~/.claude/plugins/cache/\
+remotecto-plugins/timelog/*/bin \
+  2>/dev/null | tail -1)"
+[ -n "$TIMELOG_BIN" ] && \
+  export PATH="$TIMELOG_BIN:$PATH"
+```
+
+Either way, `claudelog report --week` then
+works from anywhere.
+
 ## Getting the best results
 
 ### How project detection works
