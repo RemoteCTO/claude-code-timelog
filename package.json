@@ -2,6 +2,9 @@
   "name": "claude-code-timelog",
   "version": "0.1.0",
   "type": "module",
+  "bin": {
+    "claudelog": "bin/claudelog"
+  },
   "scripts": {
     "test": "node --test test/**/*.test.mjs",
     "lint": "eslint ."

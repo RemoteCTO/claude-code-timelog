@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+
+const ROOT = dirname(
+  dirname(fileURLToPath(import.meta.url))
+);
+
+const COMMANDS = new Set(['report', 'backfill']);
+
+const USAGE = `Usage: claudelog <command> [options]
+
+Commands:
+  report     Generate time reports
+  backfill   Import historical transcripts
+
+Run claudelog <command> --help for details.
+
+Examples:
+  claudelog report --week --by-project
+  claudelog report --month --timesheet
+  claudelog backfill`;
+
+const cmd = process.argv[2];
+
+if (!cmd || cmd === '--help' || cmd === 'help') {
+  const out = cmd ? process.stdout : process.stderr;
+  out.write(USAGE + '\n');
+  process.exit(cmd ? 0 : 1);
+}
+
+if (!COMMANDS.has(cmd)) {
+  process.stderr.write(
+    `Unknown command: ${cmd}\n\n${USAGE}\n`
+  );
+  process.exit(1);
+}
+
+const script = join(
+  ROOT, 'scripts', `${cmd}.mjs`
+);
+
+try {
+  execFileSync(
+    process.execPath,
+    [script, ...process.argv.slice(3)],
+    { stdio: 'inherit' }
+  );
+} catch (err) {
+  process.exit(err.status ?? 1);
+}
