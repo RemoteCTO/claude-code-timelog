@@ -1,0 +1,7 @@
+{
+  "ticketPatterns": [
+    "([A-Z][A-Z0-9]+-\\d+)",
+    "#(\\d+)"
+  ],
+  "projectSource": "git-root"
+}

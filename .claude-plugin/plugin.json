@@ -1,0 +1,11 @@
+{
+  "name": "timelog",
+  "version": "0.1.0",
+  "description": "Automatic time tracking for Claude Code sessions. Logs project, ticket, and prompt data as JSONL for timesheet reconstruction.",
+  "license": "MIT",
+  "keywords": [
+    "time-tracking",
+    "timesheet",
+    "logging"
+  ]
+}
