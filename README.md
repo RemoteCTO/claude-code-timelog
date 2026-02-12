@@ -5,6 +5,16 @@ Automatic time tracking plugin for
 Logs session activity as JSONL for
 timesheet reconstruction.
 
+**Use it to:**
+- Build client timesheets — see how long
+  you spent on each project
+- Track your own time across projects and
+  tickets without manual timers
+- Generate weekly/monthly reports for
+  invoicing or personal review
+- Audit which tickets consumed the most
+  Claude usage
+
 ## What it tracks
 
 - **Session start/end** with timestamps
@@ -21,8 +31,17 @@ external services.
 
 ## Quick start
 
+### From marketplace (recommended)
+
+```
+/plugin marketplace add RemoteCTO/claude-plugins-marketplace
+/plugin install timelog
+```
+
+### Manual
+
 ```bash
-git clone <repo-url> claude-code-timelog
+git clone https://github.com/RemoteCTO/claude-code-timelog.git
 claude --plugin-dir ./claude-code-timelog
 ```
 
