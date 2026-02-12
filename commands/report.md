@@ -1,6 +1,6 @@
 ---
 name: report
-description: Generate timelog reports (weekly/monthly by project/ticket/model). Use when Ed asks about time spent, billing hours, or activity summaries.
+description: Generate timelog reports (weekly/monthly by project/ticket/model). Use when asked about time spent, billing hours, or activity summaries.
 disable-model-invocation: true
 allowed-tools: Bash(node *)
 ---

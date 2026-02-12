@@ -3,5 +3,6 @@
     "([A-Z][A-Z0-9]+-\\d+)",
     "#(\\d+)"
   ],
-  "projectSource": "git-root"
+  "projectSource": "git-root",
+  "projectPattern": "projects/(?:active/)?([^/]+)"
 }
