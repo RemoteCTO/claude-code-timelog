@@ -4,5 +4,6 @@
     "#(\\d+)"
   ],
   "projectSource": "git-root",
-  "projectPattern": "projects/(?:active/)?([^/]+)"
+  "projectPattern": "projects/(?:active/)?([^/]+)",
+  "defaultReport": ["--week"]
 }
