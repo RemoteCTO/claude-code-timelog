@@ -557,6 +557,44 @@ describe('lib/config', () => {
       });
     });
 
+    describe('defaultReport', () => {
+      it('accepts valid array', () => {
+        const cfg = validateConfig({
+          ...DEFAULT_CONFIG,
+          defaultReport: [
+            '--week', '--timesheet',
+          ],
+        });
+        assert.deepEqual(
+          cfg.defaultReport,
+          ['--week', '--timesheet']
+        );
+      });
+
+      it('rejects non-array', () => {
+        const cfg = validateConfig({
+          ...DEFAULT_CONFIG,
+          defaultReport: '--week',
+        });
+        assert.strictEqual(
+          cfg.defaultReport, undefined
+        );
+      });
+
+      it('filters non-string entries',
+        () => {
+          const cfg = validateConfig({
+            ...DEFAULT_CONFIG,
+            defaultReport: [
+              '--week', 42, null,
+            ],
+          });
+          assert.deepEqual(
+            cfg.defaultReport, ['--week']
+          );
+        });
+    });
+
     describe('projectPattern', () => {
       it('rejects nested quantifiers',
         () => {

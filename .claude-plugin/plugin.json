@@ -1,6 +1,6 @@
 {
   "name": "timelog",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Automatic time tracking for Claude Code sessions. Logs project, ticket, and prompt data as JSONL for timesheet reconstruction.",
   "license": "Apache-2.0",
   "keywords": [

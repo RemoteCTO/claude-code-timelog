@@ -31,7 +31,7 @@ external services.
 
 ## Quick start
 
-### From marketplace (recommended)
+### From [marketplace][mkt] (recommended)
 
 ```
 /plugin marketplace add RemoteCTO/claude-plugins-marketplace
@@ -44,6 +44,8 @@ external services.
 git clone https://github.com/RemoteCTO/claude-code-timelog.git
 claude --plugin-dir ./claude-code-timelog
 ```
+
+[mkt]: https://github.com/RemoteCTO/claude-plugins-marketplace
 
 That's it. The plugin starts logging
 immediately with sensible defaults:
@@ -98,11 +100,23 @@ and backfills from any terminal — no active
 Claude Code session needed.
 
 ```bash
-claudelog report --week --by-project
-claudelog report --month --timesheet --json
-claudelog backfill
-claudelog --help
+claudelog                                # default report (--week)
+claudelog report --month --timesheet     # explicit flags
+claudelog backfill                       # import history
+claudelog --help                         # show usage
 ```
+
+Running `claudelog` with no arguments runs
+a default report. Configure the default via
+`defaultReport` in `config.json`:
+
+```json
+{
+  "defaultReport": ["--month", "--timesheet"]
+}
+```
+
+Falls back to `["--week"]` if not set.
 
 ### Adding to PATH
 
@@ -204,7 +218,8 @@ settings are optional.
   ],
   "projectSource": "git-root",
   "projectPattern": null,
-  "breakThreshold": 1800
+  "breakThreshold": 1800,
+  "defaultReport": ["--week"]
 }
 ```
 
