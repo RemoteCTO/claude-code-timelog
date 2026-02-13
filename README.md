@@ -121,33 +121,37 @@ Falls back to `["--week"]` if not set.
 ### Adding to PATH
 
 The plugin installs to a versioned cache
-directory. Pick one of:
-
-**Option A: Symlink (recommended)**
+directory. Create a wrapper script that
+automatically finds the latest version:
 
 ```bash
-CACHE=~/.claude/plugins/cache
-LATEST=$(ls -d "$CACHE"/remotecto-plugins/timelog/*/bin/claudelog | tail -1)
-ln -sf "$LATEST" ~/.claude/bin/claudelog
+cat > ~/.claude/bin/claudelog << 'WRAPPER'
+#!/usr/bin/env bash
+set -euo pipefail
+
+PLUGIN_DIR="$HOME/.claude/plugins/cache"
+PLUGIN_DIR+="/remotecto-plugins/timelog"
+
+LATEST=$(
+  ls -1 "$PLUGIN_DIR" 2>/dev/null \
+    | sort -V | tail -1
+)
+
+if [ -z "$LATEST" ]; then
+  echo "timelog not installed" >&2
+  exit 1
+fi
+
+exec node \
+  "$PLUGIN_DIR/$LATEST/bin/claudelog" "$@"
+WRAPPER
+chmod +x ~/.claude/bin/claudelog
 ```
 
 `~/.claude/bin` is on PATH if you use Claude
-Code (added by the installer).
-
-**Option B: PATH in shell profile**
-
-```bash
-# Add to .zshrc or .bashrc
-CACHE=~/.claude/plugins/cache
-TIMELOG_BIN="$(ls -d \
-  "$CACHE"/remotecto-plugins/timelog/*/bin \
-  2>/dev/null | tail -1)"
-[ -n "$TIMELOG_BIN" ] && \
-  export PATH="$TIMELOG_BIN:$PATH"
-```
-
-Either way, `claudelog report --week` then
-works from anywhere.
+Code (added by the installer). The wrapper
+survives plugin version bumps — no need to
+update it after upgrading.
 
 ## Getting the best results
 
@@ -531,16 +535,10 @@ project, ticket, and model. This means:
 
 ## Updating
 
-After updating the plugin, re-run the CLI
-symlink command to point at the new version:
-
-```bash
-CACHE=~/.claude/plugins/cache
-LATEST=$(ls -d \
-  "$CACHE"/remotecto-plugins/timelog/*/bin/claudelog \
-  | tail -1)
-ln -sf "$LATEST" ~/.claude/bin/claudelog
-```
+If you used the wrapper script from
+[Adding to PATH](#adding-to-path), updates
+are automatic — the wrapper finds the latest
+installed version each time it runs.
 
 ## Troubleshooting
 
