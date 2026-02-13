@@ -31,7 +31,7 @@ external services.
 
 ## Quick start
 
-### From marketplace (recommended)
+### From [marketplace][mkt] (recommended)
 
 ```
 /plugin marketplace add RemoteCTO/claude-plugins-marketplace
@@ -44,6 +44,8 @@ external services.
 git clone https://github.com/RemoteCTO/claude-code-timelog.git
 claude --plugin-dir ./claude-code-timelog
 ```
+
+[mkt]: https://github.com/RemoteCTO/claude-plugins-marketplace
 
 That's it. The plugin starts logging
 immediately with sensible defaults:
