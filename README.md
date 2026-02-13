@@ -55,6 +55,42 @@ immediately with sensible defaults:
 
 No configuration needed for basic use.
 
+### Verify it's working
+
+After your first prompt, check that a log
+file was created:
+
+```bash
+ls ~/.claude/timelog/
+```
+
+You should see a file named with today's
+date (e.g. `2026-02-13.jsonl`). If not,
+check the plugin is installed with `/plugin`.
+
+To import time from previous sessions:
+
+```
+/timelog:backfill
+```
+
+### Set up project detection
+
+If you launch Claude Code from a parent
+directory (e.g. `~/projects/`) rather than
+individual project directories, all time
+gets lumped under one project name. Fix
+this by asking Claude:
+
+> "Help me set up my timelog projectPattern
+> — here's my directory structure"
+
+Claude will examine your directories and
+generate the right regex for your
+`~/.claude/timelog/config.json`. See
+[Project detection](#project-detection)
+for details.
+
 ## CLI usage
 
 The `claudelog` command lets you run reports
@@ -477,6 +513,85 @@ project, ticket, and model. This means:
   correctly between tickets
 - **Concurrent sessions** are handled
   cleanly (separate session UUIDs)
+
+## Updating
+
+After updating the plugin, re-run the CLI
+symlink command to point at the new version:
+
+```bash
+CACHE=~/.claude/plugins/cache
+LATEST=$(ls -d \
+  "$CACHE"/remotecto-plugins/timelog/*/bin/claudelog \
+  | tail -1)
+ln -sf "$LATEST" ~/.claude/bin/claudelog
+```
+
+## Troubleshooting
+
+### No log file created
+
+- Check the plugin is installed: `/plugin`
+- The first log file appears after your
+  first prompt in a session
+- Check the log directory exists:
+  `ls ~/.claude/timelog/`
+
+### Project name is wrong
+
+The project name comes from (in order):
+1. `projectPattern` regex on file paths
+2. Git repository root directory name
+3. Working directory name
+
+**Common causes:**
+- Launched from `~/projects/` instead of
+  `~/projects/my-app/` — all time goes
+  under `projects`
+- Editing files outside your project tree —
+  the regex doesn't match
+- No `projectPattern` set and no git repo
+
+**Fix:** set `projectPattern` in
+`~/.claude/timelog/config.json`. Ask Claude
+to help — it can examine your directory
+structure and generate the right regex.
+
+### Report shows no data
+
+- Run `/timelog:backfill` to import from
+  existing transcripts
+- Check the date range: `--week` only
+  covers the current week (Monday onwards)
+- Use `--from` and `--to` for custom ranges
+
+### Times seem too high
+
+The default `breakThreshold` is 30 minutes.
+Time between prompts under this threshold
+counts as active time (including Claude's
+processing time and your review time).
+
+If you take frequent short breaks, lower
+the threshold:
+
+```json
+{
+  "breakThreshold": 600
+}
+```
+
+### Times seem too low
+
+If you regularly spend more than 30 minutes
+reviewing Claude's output between prompts,
+raise the threshold:
+
+```json
+{
+  "breakThreshold": 3600
+}
+```
 
 ## Requirements
 
