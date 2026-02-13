@@ -1,27 +1,19 @@
-# Contributing
+# Contributing to claude-code-timelog
 
-Thanks for your interest in contributing to
-Claude Code Timelog. This guide covers setup,
-standards, and how to submit changes.
+## Prerequisites
 
-## Getting started
+- Node.js 18 or later
+- Claude Code (for testing hooks)
+
+## Setup
 
 ```bash
 git clone https://github.com/RemoteCTO/claude-code-timelog.git
 cd claude-code-timelog
 npm install
-```
-
-Run the test suite and linter to verify
-everything works:
-
-```bash
 npm test
 npm run lint
 ```
-
-Tests use Node's built-in test runner and
-run across Node 18, 20, and 22 in CI.
 
 ## Project structure
 
@@ -40,91 +32,71 @@ test/           Tests (mirrors source layout)
 
 ## Code style
 
-- **80 character line limit** (enforced by
-  ESLint and editorconfig)
-- ESM modules (`.mjs` extension, `import`/
-  `export`)
+Code style is enforced by ESLint and
+editorconfig:
+
+- 80-character line limit
+- ESM modules (`.mjs` extension)
 - `prefer-const`, `no-var`
 - 2-space indentation
 - LF line endings
-- Trailing newline at end of file
 
-The full config is in `eslint.config.mjs`
-and `.editorconfig`. Most editors pick these
-up automatically.
+Run `npm run lint` before submitting changes.
 
-## Writing tests
+## Testing
 
-Tests live in `test/` and mirror the source
-tree:
+Tests use Node's native test runner
+(`node --test`).
 
-```
-lib/config.mjs       → test/lib/config.test.mjs
-scripts/report.mjs   → test/scripts/report.test.mjs
-bin/claudelog         → test/bin/claudelog.test.mjs
-```
+- Write tests first (TDD)
+- Test behaviour, not implementation
+- Use real objects, not mocks
+- Keep tests focused and independent
 
-Use Node's built-in `node:test` and
-`node:assert` modules:
-
-```js
-import { describe, it } from 'node:test';
-import assert from 'node:assert/strict';
-
-describe('feature', () => {
-  it('does the thing', () => {
-    assert.strictEqual(actual, expected);
-  });
-});
-```
-
-Run a single test file during development:
+Run tests with `npm test`. Run a single file:
 
 ```bash
 node --test test/lib/config.test.mjs
 ```
 
-## Submitting changes
+Use `CLAUDE_TIMELOG_DIR` to point at a temp
+directory during development to avoid polluting
+your real timelog data.
+
+## Pull request process
 
 1. Fork the repository
 2. Create a feature branch from `main`
-3. Make your changes with tests
-4. Ensure `npm test` and `npm run lint` pass
-5. Open a pull request against `main`
+3. Make your changes
+4. Write or update tests
+5. Update `CHANGELOG.md` under an `[Unreleased]`
+   heading (see [Keep a Changelog][kac])
+6. Run `npm test` and `npm run lint`
+7. Submit a pull request
 
-CI runs automatically on pull requests.
-Both lint and test jobs must pass.
+[kac]: https://keepachangelog.com/en/1.1.0/
 
-### Good pull requests
+Keep PRs focused on a single change. Include
+clear descriptions of what changed and why.
 
-- **One concern per PR** — a bug fix, a
-  feature, a refactor. Not all three.
-- **Tests included** — new behaviour needs
-  tests; bug fixes need a regression test.
-- **Descriptive commit messages** — explain
-  *why*, not just *what*.
+## Commit messages
 
-### Reporting bugs
+Follow conventional commit format where
+appropriate:
 
-Open an issue with:
+- `feat:` new features
+- `fix:` bug fixes
+- `docs:` documentation changes
+- `test:` test additions or changes
+- `refactor:` code changes without behaviour
+  changes
 
-- What you expected to happen
-- What actually happened
-- Steps to reproduce
-- Node version (`node -v`)
-- Claude Code version
+Keep commit messages concise and descriptive.
 
-## Environment variables
+## Questions
 
-These are useful during development:
-
-| Variable | Purpose |
-|----------|---------|
-| `CLAUDE_TIMELOG_DIR` | Override log directory |
-
-Set `CLAUDE_TIMELOG_DIR` to a temp directory
-when running tests or experimenting to avoid
-polluting your real timelog data.
+Open an issue for questions or clarifications
+before starting significant changes.
 
 ## Licence
 
